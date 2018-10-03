@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{C2D2F9A9-928C-4462-8859-FD0AC5ADD408}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Cldr-Shared-Project</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cldr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CldrExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CldrXPath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodeList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Locale.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LocaleExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LocaleIdentifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\AlgorithmicFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\INumberFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\NumberFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\NumberOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\NumberStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\NumberSymbols.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\NumberingSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\NumericFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\BaseValueRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\IRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\ImproperFractionRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\InfinityRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\MasterRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\NanRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\NegativeNumberRule .cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\ProperFractionRule .cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\RbnfContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\Rule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\Ruleset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\RulesetGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Numbers\Rules\Substitution.cs" />
+  </ItemGroup>
+</Project>

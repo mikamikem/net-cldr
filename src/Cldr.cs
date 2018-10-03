@@ -23,7 +23,7 @@ namespace Sepia.Globalization
     {
         static ILog log = LogManager.GetLogger(typeof(Cldr));
 
-        static string repositoryFolder = Path.Combine(
+        public static string repositoryFolder = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "UnicodeCLDR");
 
@@ -45,7 +45,20 @@ namespace Sepia.Globalization
         ///   CLDR implements the singleton pattern.  All access to CLDR
         ///   is via this property.
         /// </remarks>
-        public static Cldr Instance = new Cldr();
+        public static Cldr Instance
+        {
+            get
+            {
+                if(hiddenInstance == null)
+                {
+                    hiddenInstance = new Cldr();
+                }
+
+                return hiddenInstance;
+            }
+        }
+
+        private static Cldr hiddenInstance = null;
 
         ConcurrentDictionary<string, XPathDocument> DocumentCache = new ConcurrentDictionary<string, XPathDocument>();
 
