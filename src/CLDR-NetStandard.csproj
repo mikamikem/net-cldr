@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>CLDR_NetStandard</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Cldr-Shared-Project.projitems" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Common.Logging" Version="3.4.1" />
+    <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+</Project>
