@@ -1,2 +1,45 @@
 - name: Introduction
   href: intro.md
+- name: Unicode CLDR
+  href: cldr.md
+  items:
+    - name: Downloading
+      href: cldr/Downloading.md
+    - name: Extending
+      href: cldr/extending.md
+    - name: Getting documents
+      href: cldr/get-docs.md
+    - name: Searching
+      href: cldr/searching.md
+- name: Locale
+  href: locale.md
+  items:
+    - name: Locale ID
+      href: locale-id.md
+    - name: Unicode BCP 47 U Extension
+      href: u-ext.md
+    - name: Finding Data
+      href: locale-data.md
+- name: Numbering Systems
+  href: numbering-systems/index.md
+  items:
+    - name: Algorithmic
+      href: numbering-systems/algorithmic.md
+    - name: Numeric
+      href: numbering-systems/numeric.md
+    - name: Category
+      href: numbering-systems/category.md
+- name: Numbers
+  items:
+     - name: Formatting
+       href: numbers/formatting.md
+     - name: Currency
+       href: numbers/currency.md
+     - name: Spelling out
+       href: numbers/spelling.md
+- name: Plurals
+  items:
+     - name: Category
+       href: plurals/category.md
+- name: Class Reference
+  href: ../api/Sepia.Globalization.yml

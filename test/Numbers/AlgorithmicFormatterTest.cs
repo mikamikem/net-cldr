@@ -11,7 +11,7 @@ namespace Sepia.Globalization.Numbers
     public class AlgorithmicFormatterTest
     {
         [TestMethod]
-        public void Decimal()
+        public void RomanNumerals()
         {
             var locale = Locale.Create("it-u-nu-roman");
             var formatter = NumberFormatter.Create(locale);
@@ -24,6 +24,32 @@ namespace Sepia.Globalization.Numbers
             Assert.AreEqual("XX", formatter.Format(20));
             Assert.AreEqual("CXXIII", formatter.Format(123));
             Assert.AreEqual("MCCXXXIV", formatter.Format(1234));
+
+            Assert.AreEqual("9,223,372,036,854,775,807", formatter.Format(long.MaxValue));
+        }
+
+        [TestMethod]
+        public void TraditionalChinese()
+        {
+            var locale = Locale.Create("zh-u-nu-hant");
+            var formatter = NumberFormatter.Create(locale);
+            Assert.AreEqual("一百二十三", formatter.Format(123));
+        }
+
+        [TestMethod]
+        public void Japan()
+        {
+            var locale = Locale.Create("ja-u-nu-jpan");
+            var formatter = NumberFormatter.Create(locale);
+            Assert.AreEqual("百二十三", formatter.Format(123));
+        }
+
+        [TestMethod]
+        public void Hebrew()
+        {
+            var locale = Locale.Create("he-u-nu-hebr");
+            var formatter = NumberFormatter.Create(locale);
+            Assert.AreEqual("קכ״ג", formatter.Format(123));
         }
 
         [TestMethod]

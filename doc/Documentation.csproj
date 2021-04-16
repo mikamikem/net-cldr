@@ -22,6 +22,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,14 +63,29 @@
   <ItemGroup>
     <Content Include="articles\toc.yml" />
     <Content Include="images\docs-latest-green.svg" />
-    <Content Include="images\ipfs-logo.svg" />
     <Content Include="packages.config" />
     <Content Include="toc.yml" />
     <Content Include="index.md" />
     <Content Include="docfx.json" />
     <Content Include="articles\intro.md" />
-    <Content Include="articles\toc.md" />
     <Content Include="api\index.md" />
+    <Content Include="articles\locale.md" />
+    <Content Include="articles\locale-id.md" />
+    <Content Include="articles\u-ext.md" />
+    <Content Include="articles\cldr.md" />
+    <Content Include="articles\cldr\downloading.md" />
+    <Content Include="articles\cldr\extending.md" />
+    <Content Include="articles\cldr\get-docs.md" />
+    <Content Include="articles\cldr\searching.md" />
+    <Content Include="articles\locale-data.md" />
+    <Content Include="articles\numbers\formatting.md" />
+    <Content Include="articles\numbers\currency.md" />
+    <Content Include="articles\numbers\spelling.md" />
+    <Content Include="articles\plurals\category.md" />
+    <Content Include="articles\numbering-systems\index.md" />
+    <Content Include="articles\numbering-systems\numeric.md" />
+    <Content Include="articles\numbering-systems\algorithmic.md" />
+    <Content Include="articles\numbering-systems\category.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

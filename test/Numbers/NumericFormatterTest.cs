@@ -28,8 +28,107 @@ namespace Sepia.Globalization.Numbers
             Assert.AreEqual("123", formatter.Format(123));
             Assert.AreEqual("1234", formatter.Format(1234));
             Assert.AreEqual("1234,568", formatter.Format(1234.56789));
-            Assert.AreEqual("12\u00A0345", formatter.Format(12345));
-            Assert.AreEqual("12\u00A0345,679", formatter.Format(12345.6789));
+            if (Cldr.Instance.CurrentVersion() < new Version(34, 0))
+            {
+                Assert.AreEqual("12\u00A0345", formatter.Format(12345));
+                Assert.AreEqual("12\u00A0345,679", formatter.Format(12345.6789));
+            }
+            else
+            {
+                Assert.AreEqual("12\u202F345", formatter.Format(12345));
+                Assert.AreEqual("12\u202F345,679", formatter.Format(12345.6789));
+            }
+        }
+
+        [TestMethod]
+        public void Bad_Style()
+        {
+            var locale = Locale.Create("en");
+            var formatter = NumberFormatter.Create(locale, new NumberOptions
+            {
+                Style = (NumberStyle) 0xbad
+            });
+            ExceptionAssert.Throws<NotImplementedException>(() => formatter.Format(0));
+        }
+
+        [TestMethod]
+        public void Decimal_Short()
+        {
+            var locale = Locale.Create("en");
+            var formatter = NumberFormatter.Create(locale, new NumberOptions
+            {
+                Style = NumberStyle.Decimal,
+                Length = NumberLength.Short
+            });
+            Assert.AreEqual("0", formatter.Format(0));
+            Assert.AreEqual("1", formatter.Format(1));
+            Assert.AreEqual("12", formatter.Format(12));
+            Assert.AreEqual("123", formatter.Format(123));
+            Assert.AreEqual("1K",   formatter.Format(1234));
+            Assert.AreEqual("2K",   formatter.Format(2000));
+            Assert.AreEqual("12K", formatter.Format(12345));
+            Assert.AreEqual("30K",  formatter.Format(30000));
+            Assert.AreEqual("400K", formatter.Format(400000));
+            Assert.AreEqual("5M",   formatter.Format(5000000));
+            Assert.AreEqual("60B",  formatter.Format(60000000000));
+            Assert.AreEqual("7T",   formatter.Format(7000000000000));
+            Assert.AreEqual("8800T",formatter.Format(8800000000000000));
+        }
+
+        [TestMethod]
+        public void Decimal_Long_RU()
+        {
+            var locale = Locale.Create("ru");
+            var formatter = NumberFormatter.Create(locale, new NumberOptions
+            {
+                Style = NumberStyle.Decimal,
+                Length = NumberLength.Long
+            });
+            Assert.AreEqual("1 тысяча", formatter.Format(1001));
+            Assert.AreEqual("1 тысячи", formatter.Format(1002));
+        }
+
+        [TestMethod]
+        public void Decimal_Medium()
+        {
+            // No def for medium, so fall back to default formatting.
+
+            var locale = Locale.Create("en");
+            var formatter = NumberFormatter.Create(locale, new NumberOptions
+            {
+                Style = NumberStyle.Decimal,
+                Length = NumberLength.Medium
+            });
+            Assert.AreEqual("0", formatter.Format(0));
+            Assert.AreEqual("1", formatter.Format(1));
+            Assert.AreEqual("12", formatter.Format(12));
+            Assert.AreEqual("123", formatter.Format(123));
+            Assert.AreEqual("1234", formatter.Format(1234));
+            Assert.AreEqual("12,345", formatter.Format(12345));
+        }
+
+        [TestMethod]
+        public void Decimal_Long()
+        {
+            var locale = Locale.Create("en");
+            var formatter = NumberFormatter.Create(locale, new NumberOptions
+            {
+                Style = NumberStyle.Decimal,
+                Length = NumberLength.Long
+            });
+            Assert.AreEqual("0", formatter.Format(0));
+            Assert.AreEqual("1", formatter.Format(1));
+            Assert.AreEqual("12", formatter.Format(12));
+            Assert.AreEqual("123", formatter.Format(123));
+            Assert.AreEqual("1 thousand", formatter.Format(1234));
+            Assert.AreEqual("2 thousand", formatter.Format(2000));
+            Assert.AreEqual("12 thousand", formatter.Format(12345));
+            Assert.AreEqual("30 thousand", formatter.Format(30000));
+            Assert.AreEqual("400 thousand", formatter.Format(400000));
+            Assert.AreEqual("5 million", formatter.Format(5000000));
+            Assert.AreEqual("60 billion", formatter.Format(60000000000));
+            Assert.AreEqual("7 trillion", formatter.Format(7000000000000));
+            Assert.AreEqual("8800 trillion", formatter.Format(8800000000000000));
         }
 
         [TestMethod]
@@ -38,6 +137,30 @@ namespace Sepia.Globalization.Numbers
             var locale = Locale.Create("zh-u-nu-native");
             var formatter = NumberFormatter.Create(locale);
             Assert.AreEqual("一二,三四五.六七九", formatter.Format(12345.6789m));
+        }
+
+        [TestMethod]
+        public void Decimal_Digit_Chinese()
+        {
+            var locale = Locale.Create("zh-u-nu-hanidec");
+            var formatter = NumberFormatter.Create(locale);
+            Assert.AreEqual("一二三", formatter.Format(123));
+        }
+
+        [TestMethod]
+        public void Decimal_Digit_Thai()
+        {
+            var locale = Locale.Create("th-u-nu-thai");
+            var formatter = NumberFormatter.Create(locale);
+            Assert.AreEqual("๑๒๓", formatter.Format(123));
+        }
+
+        [TestMethod]
+        public void Decimal_Digit_Devanagari()
+        {
+            var locale = Locale.Create("hi-u-nu-deva");
+            var formatter = NumberFormatter.Create(locale);
+            Assert.AreEqual("१२३", formatter.Format(123));
         }
 
         [TestMethod]
@@ -81,7 +204,14 @@ namespace Sepia.Globalization.Numbers
 
             locale = Locale.Create("fr");
             formatter = NumberFormatter.Create(locale, new NumberOptions { Style = NumberStyle.CurrencyStandard });
-            Assert.AreEqual("123\u00A0456,79\u00A0$CA", formatter.Format(123456.789, "CAD"));
+            if (Cldr.Instance.CurrentVersion() < new Version(34, 0))
+            {
+                Assert.AreEqual("123\u00A0456,79\u00A0$CA", formatter.Format(123456.789, "CAD"));
+            }
+            else
+            {
+                Assert.AreEqual("123\u202F456,79\u00A0$CA", formatter.Format(123456.789, "CAD"));
+            }
         }
 
         [TestMethod]
@@ -94,8 +224,18 @@ namespace Sepia.Globalization.Numbers
 
             locale = Locale.Create("fr");
             formatter = NumberFormatter.Create(locale, new NumberOptions { Style = NumberStyle.CurrencyAccounting });
-            Assert.AreEqual("123\u00A0456,79\u00A0$CA", formatter.Format(123456.789, "CAD"));
-            Assert.AreEqual("(123\u00A0456,79\u00A0$CA)", formatter.Format(-123456.789, "CAD"));
+            if (Cldr.Instance.CurrentVersion() < new Version(34, 0))
+            {
+                Assert.AreEqual("123\u00A0456,79\u00A0$CA", formatter.Format(123456.789, "CAD"));
+                Assert.AreEqual("(123\u00A0456,79\u00A0$CA)", formatter.Format(-123456.789, "CAD"));
+            }
+            else
+            {
+                foreach (var ch in formatter.Format(123456.789, "CAD"))
+                    Console.WriteLine($"'{ch}' is {((int)ch).ToString("x2")}");
+                Assert.AreEqual("123\u202F456,79\u00A0$CA", formatter.Format(123456.789, "CAD"));
+                Assert.AreEqual("(123\u202F456,79\u00A0$CA)", formatter.Format(-123456.789, "CAD"));
+            }
         }
 
         [TestMethod]
@@ -147,6 +287,20 @@ namespace Sepia.Globalization.Numbers
         }
 
         [TestMethod]
+        public void Currency_Short()
+        {
+            var locale = Locale.Create("en");
+            var formatter = NumberFormatter.Create(locale, new NumberOptions
+            {
+                Style = NumberStyle.CurrencyStandard,
+                Length = NumberLength.Short,
+            });
+            Assert.AreEqual("NZ$1K", formatter.Format(1234.25m, "NZD"));
+            Assert.AreEqual("¥1K", formatter.Format(1234.25m, "JPY"));
+            Assert.AreEqual("€1K", formatter.Format(1234.25m, "EUR"));
+        }
+
+        [TestMethod, Ignore]
         public void Minimum_Grouping_Digits()
         {
             var locale = Locale.Create("es_419");
@@ -176,17 +330,6 @@ namespace Sepia.Globalization.Numbers
             Assert.AreEqual("12.345.678", formatter.Format(12345678));
             Assert.AreEqual("123.456.789", formatter.Format(123456789));
             Assert.AreEqual("1.234.567.890", formatter.Format(1234567890));
-        }
-
-        [TestMethod, Ignore]
-        public void Compact_Short() // TODO
-        {
-
-        }
-
-        [TestMethod, Ignore]
-        public void Compact_Long() // TODO
-        {
         }
 
         [TestMethod]
