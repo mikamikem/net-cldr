@@ -218,15 +218,15 @@ namespace Sepia.Globalization
             }
             Directory.CreateDirectory(repositoryFolder);
 
-            var files = new[] { "core.zip", "keyboards.zip" };
-            var tasks = files.Select(name => DownloadAsync(name, version));
+            var files = new[] { new[] { "core.zip", "core.zip" }, new[] { $"cldr-keyboards-{version.ToString()}.zip", "keyboards.zip" } };
+            var tasks = files.Select(names => DownloadAsync(remoteFilename: names[0], localFilename: names[1], version));
             var result = await Task.WhenAll(tasks);
 
             ClearCaches();
             return result;
         }
 
-        async Task<string> DownloadAsync(string filename, Version version)
+        async Task<string> DownloadAsync(string remoteFilename, string localFilename, Version version)
         {
             var v = version.ToString();
             while (v.EndsWith(".0"))
@@ -234,8 +234,8 @@ namespace Sepia.Globalization
                 v = v.Substring(0, v.Length - 2);
             }
 
-            var url = $"{OriginUrl}{v}/{filename}";
-            var path = Path.Combine(repositoryFolder, filename);
+            var url = $"{OriginUrl}{v}/{remoteFilename}";
+            var path = Path.Combine(repositoryFolder, localFilename);
             if (log.IsDebugEnabled)
                 log.Debug($"GET {url}");
             using (var local = File.Create(path))
@@ -249,14 +249,14 @@ namespace Sepia.Globalization
                 }
             }
 
-            if (filename.ToLowerInvariant().EndsWith(".zip"))
+            if (localFilename.ToLowerInvariant().EndsWith(".zip"))
             {
-                var zipFolder = Path.Combine(repositoryFolder, Path.GetFileNameWithoutExtension(filename));
+                var zipFolder = Path.Combine(repositoryFolder, Path.GetFileNameWithoutExtension(localFilename));
                 if (log.IsDebugEnabled)
-                    log.Debug($"Unzipping {filename}");
+                    log.Debug($"Unzipping {localFilename}");
                 ZipFile.ExtractToDirectory(path, zipFolder);
                 if (log.IsDebugEnabled)
-                    log.Debug($"Deleting {filename}");
+                    log.Debug($"Deleting {localFilename}");
                 File.Delete(path);
             }
             return path;
