@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>CLDR_NetStandard</RootNamespace>
+    <ReleaseVersion>0.8.0</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <PackageId>CLDR.NetStandard</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
